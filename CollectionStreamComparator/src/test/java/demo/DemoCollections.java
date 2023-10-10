@@ -94,4 +94,5 @@ public class DemoCollections {
         int resComp = cmp.compare(city1, city2);
         assertTrue(resComp < 0);
     }
+
 }
