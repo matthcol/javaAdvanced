@@ -12,7 +12,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.text.Collator;
 import java.util.*;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -234,7 +237,7 @@ class DemoSortCity {
     // - cities with a distanceSeas > distanceSeaThreshold
     @ParameterizedTest
     @ValueSource(ints={100, 200, 300})
-    void demoCollectosPArtition(int distanceSeaThreshold){
+    void demoCollectosPartition(int distanceSeaThreshold){
         Map<Boolean, List<City>> cityPartitioning = cities.parallelStream()
                 .collect(Collectors.partitioningBy(
                         city -> city.getDistanceSea() <= distanceSeaThreshold));
@@ -273,10 +276,33 @@ class DemoSortCity {
             cityCollection.forEach(city -> System.out.println(
                     "\t - "
                             + city.getName()
-                            + "("
+                            + " ("
                             + city.getDistanceSea()
                             + " km)"
             ));
         });
+    }
+
+    @Test
+    void demoPartitioningInterval(){
+        int interval = 100;
+        Function<City,Integer> keyMapper = (City city) -> city.getDistanceSea() / interval;
+        Function<City, List<City>> keyValue = (City city) -> {
+            var listCity = new ArrayList<City>();
+            listCity.add(city);
+            return listCity;
+        };
+        BinaryOperator<List<City>> merger = (List<City> lc1, List<City> lc2) -> {
+            lc1.addAll(lc2);
+            return lc1;
+        };
+        Map<Integer, List<City>> cityPartitioning = cities.parallelStream()
+                .collect(Collectors.toMap(
+                        keyMapper,
+                        keyValue,
+                        merger,
+                        TreeMap<Integer, List<City>>::new
+                ));
+        System.out.println(cityPartitioning);
     }
 }
