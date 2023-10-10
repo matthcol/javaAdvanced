@@ -4,6 +4,7 @@ import data.Circle;
 import data.Form;
 import data.Point;
 import data.WeightedPoint;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,8 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DemoForms {
 
-    @Test
-    void demoForms(){
+    static List<Form> forms;
+
+    @BeforeAll
+    static void initDemoForms(){
         var ptA = Point.builder()
                 .name("A")
                 .x(4.5)
@@ -25,7 +28,7 @@ class DemoForms {
                 .y(3.75)
                 .weight(10.0)
                 .build();
-        List<Form> forms = List.of(
+        forms = List.of(
                 new Point(),
                 new WeightedPoint(),
                 ptA,
@@ -37,6 +40,21 @@ class DemoForms {
                         .build()
         );
         System.out.println(forms);
+    }
+
+    @Test
+    void computeMaximumPointX() {
+        var optXMax = forms.stream()
+                .filter(f -> f instanceof Point)
+                .map(f -> (Point) f)
+                .mapToDouble(Point::getX)
+                .max();
+        System.out.println(optXMax);
+    }
+
+    @Test
+    void computeTotalSurface(){
+
     }
 
 }
