@@ -1,4 +1,4 @@
-package data.fixture;
+package validation.tu.fixture;
 
 
 import lombok.AllArgsConstructor;

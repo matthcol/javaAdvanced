@@ -2,12 +2,13 @@ package validation.tu;
 
 import data.Circle;
 import data.Point;
-import data.fixture.BadPojoNoGetter;
+import validation.tu.fixture.BadPojoNoGetter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import validation.ValidationException;
 import validation.Validations;
+import validation.tu.fixture.DataMinConstraintMisplaced;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -65,5 +66,13 @@ class ValidationTest {
                 .build();
         var ok = Validations.isValid(circleC);
         assertFalse(ok, "circle is not valid");
+    }
+
+    @Test
+    void testIsValidMinKoWrongType(){
+        DataMinConstraintMisplaced data = DataMinConstraintMisplaced.builder()
+                .name("A")
+                .build();
+        assertThrows(ValidationException.class, () -> Validations.isValid(data));
     }
 }
