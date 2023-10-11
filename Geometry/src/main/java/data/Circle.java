@@ -1,10 +1,13 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import validation.annotation.Min;
+import validation.annotation.NotNull;
 
 @Getter
 @Setter
@@ -13,8 +16,13 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 public class Circle extends Form implements Mesurable2D{
 
-    private Point center;
-    private double radius;
+    @JsonAlias
+    @NotNull
+    private Point center; // not null
+
+    // @Min(0)
+    @Min(value = 0, inclusive = false)
+    private double radius; // radius > 0
 
     @Override
     public void translate(double deltaX, double deltaY) {

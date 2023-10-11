@@ -1,5 +1,7 @@
-package data;
+package data.tu;
 
+import data.Point;
+import data.Triangle;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

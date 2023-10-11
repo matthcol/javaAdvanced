@@ -91,4 +91,30 @@ class DemoForms {
         }
     }
 
+    @Test
+    void demoSwitchCasePatternMatching(){
+
+//        if (form instanceof WeightedPoint){
+//            WeightedPoint wp = (WeightedPoint) form;
+//            System.out.println(wp.getWeight());
+//        } else if (form instanceof  Point) {
+//            Point pt = (Point) form;
+//            System.out.println(pt.getX() + ", " + pt.getY());
+//        } else if (form instanceof Mesurable2D){
+//            Mesurable2D m = (Mesurable2D) form;
+//            System.out.println(m.perimeter() + "," + m.surface());
+//        }
+        for (var form: forms) {
+            switch (form) {
+                case WeightedPoint wp ->
+                    System.out.println(wp.getWeight());
+                case Point pt ->
+                    System.out.println(pt.getX() + ", " + pt.getY());
+                case Circle c ->
+                    System.out.println(c.getRadius());
+                default -> System.out.println("skip");
+            }
+        }
+    }
+
 }
