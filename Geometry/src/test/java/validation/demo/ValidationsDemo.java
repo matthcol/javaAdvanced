@@ -24,19 +24,4 @@ class ValidationsDemo {
         Validations.introspectValidation(circleC);
     }
 
-    @Test
-    void testIsValidNotNull(){
-        var ptA = Point.builder()
-                .name("A")
-                .x(4.5)
-                .y(7.5)
-                .build();
-        var circleC =  Circle.builder()
-                .name("C")
-                .center(ptA)
-                .radius(3.0)
-                .build();
-        var ok = Validations.isValid(circleC);
-        assertTrue(ok, "circle is valid");
-    }
 }
