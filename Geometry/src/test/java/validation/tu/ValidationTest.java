@@ -2,6 +2,7 @@ package validation.tu;
 
 import data.Circle;
 import data.Point;
+import data.WeightedPoint;
 import validation.tu.fixture.BadPojoNoGetter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,7 +14,6 @@ import validation.tu.fixture.DataMinConstraintMisplaced;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ValidationTest {
-
 
     @Test
     void testIsValidNotNullMinOk() {
@@ -74,5 +74,16 @@ class ValidationTest {
                 .name("A")
                 .build();
         assertThrows(ValidationException.class, () -> Validations.isValid(data));
+    }
+
+    @Test
+    void testIsValidNotNullKoInParentClass(){
+        var wp = WeightedPoint.builder()
+                .name(null)
+                .x(3.5)
+                .y(4.5)
+                .weight(12.0)
+                .build();
+        assertFalse(Validations.isValid(wp), "weighted point is not valid (no name)");
     }
 }

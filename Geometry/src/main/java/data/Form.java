@@ -2,6 +2,7 @@ package data;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import validation.annotation.NotNull;
 
 import static lombok.AccessLevel.PROTECTED;
 
@@ -12,6 +13,7 @@ import static lombok.AccessLevel.PROTECTED;
 @SuperBuilder
 @ToString
 public abstract class Form {
+    @NotNull
     private String name;
 
     /**

@@ -105,6 +105,18 @@ public class Validations {
     }
 
     private static boolean isValidMin(Object object, Field field, Min minAnootation) {
-        return true;
+        Method getterMethod = getGetterFromField(field); // Ex: getCenter from class Circle
+        try {
+            double value = (Double) getterMethod.invoke(object); // Ex: ((Circle) object).getCenter()
+            double minValue = minAnootation.value();
+            boolean isInclusive = minAnootation.inclusive();
+            return isInclusive ? (value >= minValue) : (value > minValue);
+        } catch (ClassCastException e) {
+            throw new ValidationException("ClassCastException", e);
+        } catch (IllegalAccessException e) {
+            throw new ValidationException("IllegalAccessException", e);
+        } catch (InvocationTargetException e) {
+            throw new ValidationException("InvocationTargetException", e);
+        }
     }
 }
