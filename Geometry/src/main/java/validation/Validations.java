@@ -1,5 +1,6 @@
 package validation;
 
+import reflect.ClassTools;
 import validation.annotation.Min;
 import validation.annotation.NotNull;
 
@@ -48,7 +49,7 @@ public class Validations {
 
     public static boolean isValid(Object o) {
         Class<?> objectClass = o.getClass();
-        Field[] fields = objectClass.getDeclaredFields(); // TODO: + parent fields
+        Field[] fields = ClassTools.getAllDeclaredField(objectClass); //objectClass.getDeclaredFields(); // TODO: + parent fields
         boolean res = true;
         for (Field field: fields) {
             Annotation[] annotationFields = field.getAnnotations();
