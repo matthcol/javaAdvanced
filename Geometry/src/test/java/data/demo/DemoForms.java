@@ -3,6 +3,7 @@ package data.demo;
 import data.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import reflect.ClassTools;
 
 import java.security.spec.RSAOtherPrimeInfo;
 import java.util.List;
@@ -22,7 +23,7 @@ class DemoForms {
                 .build();
         var ptB = WeightedPoint.builder()
                 .name("B")
-                .x(2.25)
+                .x(12.25)
                 .y(3.75)
                 .weight(10.0)
                 .build();
@@ -51,10 +52,26 @@ class DemoForms {
     }
 
     @Test
+    void computeMaximumPointX2() {
+        var optXMax = ClassTools.filterByType(forms.stream(), Point.class)
+                .mapToDouble(Point::getX)
+                .max();
+        System.out.println(optXMax);
+    }
+
+    @Test
     void computeTotalSurface(){
         var totalSurface = forms.stream()
                 .filter(f -> f instanceof Mesurable2D)
                 .map(f -> (Mesurable2D) f)
+                .mapToDouble(Mesurable2D::surface)
+                .sum();
+        System.out.println(totalSurface);
+    }
+
+    @Test
+    void computeTotalSurface2(){
+        var totalSurface = ClassTools.filterByType(forms.stream(), Mesurable2D.class)
                 .mapToDouble(Mesurable2D::surface)
                 .sum();
         System.out.println(totalSurface);

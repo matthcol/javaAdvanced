@@ -1,7 +1,9 @@
 package reflect;
 
+import java.io.FileDescriptor;
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class ClassTools {
 
@@ -9,12 +11,19 @@ public class ClassTools {
         Field[] fields = aClass.getDeclaredFields();
         if (aClass != Object.class) {
             Field[] ancestorFields = getAllDeclaredField(aClass.getSuperclass());
-            int previousLength = fields.length;
-            fields = Arrays.copyOf(fields, previousLength + ancestorFields.length);
-            for (int i = 0; i < ancestorFields.length; i++) {
-                fields[previousLength + i ] = ancestorFields[i];
-            }
+            // merge fields
+            fields = Stream.concat(
+                    Arrays.stream(fields),
+                    Arrays.stream(ancestorFields)
+            ).toArray(Field[]::new);
         }
         return fields;
+    }
+
+    // Stream<Form>, Point.class => Stream<Point>
+    // Stream<T>, Class<U> => Stream<U>
+    public static <T,U> Stream<U> filterByType(Stream<T> stream, Class<U> uType){
+        return stream.filter((T t) -> uType.isInstance(t))
+                .map((T t) -> uType.cast(t));
     }
 }
